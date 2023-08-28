@@ -48,6 +48,7 @@ t_type ft_check_line(char *line)
 	}
 	return type;
 }
+
 void	map_loading(t_vars *vars, int fd, t_object **lst)
 {
 	char	*line;
