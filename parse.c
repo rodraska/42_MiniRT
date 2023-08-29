@@ -113,6 +113,7 @@ int	check_map(t_vars *vars)
 	else
 	{
 		fd = open(vars->map_file, O_RDONLY);
+		printf("fd1: %d\n", fd);
 		if (fd == -1)
 		{
 			write(1, "That file is not in the repository.\n", 37);
@@ -121,5 +122,45 @@ int	check_map(t_vars *vars)
 		//check_empty(vars, get_next_line(fd));
 		return (fd);
 	}
+	return (0);
+}
+
+int		check_float(char **line)
+{
+	int	i;
+
+	i = 0;
+	if (!ft_isdigit(*line) && *line != '+' && *line != '-')
+		return (0);
+	while (*line != ',')
+	{
+		if (!ft_isdigit(*line) && *line != '.')
+			return (0);
+		(*line)++;
+	}
+	return (1);
+}
+
+void	check_syntax(t_vars *vars)
+{
+	int fd;
+	char *line;
+	t_type type;
+
+	fd = open(vars->map_file, O_RDONLY);
+	line = get_next_line(fd);
+	while (line)
+	{
+		type = ft_get_type(line);
+		check_syntax2(type);
+		line = get_next_line(fd);
+		
+	}
+}
+
+int	main(void)
+{
+	char *line = "4.67,3.87,9.0";
+	printf("%d\n", check_float(&line));
 	return (0);
 }

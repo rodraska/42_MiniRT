@@ -40,7 +40,6 @@ t_object* new_plane(t_vector coord, t_vector direction, t_color color, int specu
 
 t_object    *parse_plane(char *line)
 {
-	printf("plane\n");
     t_vector coord;
     t_vector normal;
     t_color color;

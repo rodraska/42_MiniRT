@@ -26,6 +26,7 @@ int	main(int ac, char **av)
 		//vars = (t_vars*)calloc(sizeof(t_vars), 1);
 		vars.map_file = av[1];
 		fd = check_map(&vars);
+		check_syntax(&vars);
 		while (map_loading(&vars, fd))
 			;
 		close(fd);

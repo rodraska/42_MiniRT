@@ -6,7 +6,7 @@
 /*   By: rreis-de <rreis-de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/08/29 15:54:44 by rreis-de         ###   ########.fr       */
+/*   Updated: 2023/08/29 18:21:05 by rreis-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ t_object	*parse_next(t_type type, char *line);
 int		map_loading(t_vars *vars, int fd);
 int		strcmp_rt(char *a, char *extension);
 int		check_map(t_vars *vars);
+void	check_syntax(t_vars *vars);
 
 //Aux
 void	*ft_calloc(size_t nelem, size_t elsize);

@@ -39,7 +39,6 @@ t_object* new_sphere(t_vector coord, float diameter, t_color color, int specular
 
 t_object	*parse_sphere(char *line)
 {
-	printf("sphere\n");
     t_vector coord;
     float   diameter;
     t_color color;
