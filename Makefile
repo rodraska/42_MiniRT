@@ -14,6 +14,7 @@ SRCS = Aux/pixel_put.c \
 	   Aux/ft_isdigit.c \
 	   Aux/ft_strchr.c \
 	   Aux/ft_lists.c \
+	   Aux/ft_atof.c \
 	   main.c \
 	   object.c \
 	   plane.c \

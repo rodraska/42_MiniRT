@@ -18,22 +18,21 @@ void init_window(t_vars *vars)
 
 int	main(int ac, char **av)
 {
-	t_vars *vars;
-	t_object **lst;
+	static t_vars vars;
 	int fd;
 
 	if (ac == 2)
 	{
-		vars = (t_vars*)calloc(sizeof(t_vars), 1);
-		vars->map_file = av[1];
-		fd = check_map(vars);
-		map_loading(vars, fd, lst);
-		map_loading(vars, fd, lst);
-		vars->objects = lst;
+		//vars = (t_vars*)calloc(sizeof(t_vars), 1);
+		vars.map_file = av[1];
+		fd = check_map(&vars);
+		while (map_loading(&vars, fd))
+			;
+		close(fd);
+		init_window(&vars);
+		mlx_loop_hook(vars.mlx, raytracer, &vars);	
+		mlx_loop(vars.mlx);
 
-		init_window(vars);
-		mlx_loop_hook(vars->mlx, raytracer, vars);	
-		mlx_loop(vars->mlx);
 	}
 	else
 		write(1, "Not enough arguments\n", 22);

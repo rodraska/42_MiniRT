@@ -1,38 +1,42 @@
 #include "includes/minirt.h"
 
-int	*split_array(t_vars *vars, char *line)
+t_object    *parse_next(t_type type, char *line)
 {
-	int		*t;
-	char	**temp;
-	char	**property;
-	int		size;
-	int		i;
-
-	i = 0;
-	temp = ft_split(line, ' ');
-	property = ft_split(temp, ',');
-	vars->objects[i] = ft_calloc(sizeof(t_object), 1);
-	return (t);
+    if (type == PLANE)
+        return (parse_plane(line));
+    if (type == SPHERE)
+        return (parse_sphere(line));
+    /* if (type == CYLINDER)
+        return (parse_cylinder(line)); */
+    if (type == AMBIENT)
+        return (parse_ambient(line));
+    if (type == POINT)
+        return (parse_point(line));
+	else
+		return (parse_plane(line));
 }
 
-t_type ft_get_type(char* line)
+t_type ft_get_type(char *line)
 {
-	if (line[0] == 'A')
-		return AMBIENT;
-	if (line[0] == 'L')
-		return POINT;
-	if (line[0] == 's' && line[1] == 'p') 
-		return SPHERE;
-	if (line[0] == 'p' && line[1] == 'l') 
-		return PLANE;
-	if (line[0] == 'c' && line[1] == 'y') 
-		return CYLINDER;
-	if (line[0] == '\n')
-		return EMPTY_LINE;
+	if (line)
+    {
+        if (line[0] == '\n')
+            return EMPTY_LINE;
+        if (line[0] == 'A')
+            return AMBIENT;
+        if (line[0] == 'L')
+            return POINT;   
+        if ((line)[0] == 's' && (line)[1] == 'p') 
+            return SPHERE;
+        if ((line)[0] == 'p' && (line)[1] == 'l') 
+            return PLANE;
+        if ((line)[0] == 'c' && (line)[1] == 'y') 
+            return CYLINDER;
+    }
 	return ERROR;
 }
 
-t_type ft_check_line(char *line)
+void ft_check_line(t_vars *vars, char *line)
 {
 	int 	i;
 	t_type type;
@@ -44,20 +48,27 @@ t_type ft_check_line(char *line)
 	while (line && line[++i])
 	{
 		if (!line[i] && !ft_isdigit(line[i]) && line[i] != '.' && line[i] != ',')
-			return ERROR;
+			return ;
 	}
-	return type;
+    i = 0;
+    while (line[i] && !ft_isdigit(line[i]) && line[i] != '+' && line[i] != '-')
+        i++;
+	if (type != AMBIENT && type != POINT && type != DIRECTIONAL)
+		lst_add_back(vars, type, (line + i)) ;
+	else
+		light_add_back(vars, type, (line + i));
 }
 
-void	map_loading(t_vars *vars, int fd, t_object **lst)
+int	map_loading(t_vars *vars, int fd)
 {
 	char	*line;
-	t_type type;
 
 	line = get_next_line(fd);
-	type = ft_check_line(line);
-	lst_add_back(lst, type);
+	if (line == NULL)
+		return (0);	
+	ft_check_line(vars, line);
 	free(line);
+	return (1);
 }
 
 int	strcmp_rt(char *a, char *extension)
@@ -107,7 +118,7 @@ int	check_map(t_vars *vars)
 			write(1, "That file is not in the repository.\n", 37);
 			ft_close (vars);
 		}
-		check_empty(vars, get_next_line(fd));
+		//check_empty(vars, get_next_line(fd));
 		return (fd);
 	}
 	return (0);

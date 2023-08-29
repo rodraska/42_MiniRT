@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minirt.h                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
+/*   By: rreis-de <rreis-de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/08/24 20:33:15 by duarte33         ###   ########.fr       */
+/*   Updated: 2023/08/29 15:54:44 by rreis-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ typedef struct 	s_plane  t_plane;
 typedef struct 	s_sphere t_sphere;
 typedef enum 	e_type t_type;
 typedef struct 	s_light t_light;
+typedef struct	s_obj_list t_obj_list;
 
 enum e_type{
 	PLANE,
@@ -56,28 +57,25 @@ struct	s_vars {
 	void	*mlx;
 	void	*win;
 	t_data	 img;
-	t_object **objects;
-	//t_object *objects[6];
-	//t_light  **lights;
-	t_light  *lights[4];
+	t_object *begin;
+	t_light  *light;
 	t_object *select;
 	char 	 *map_file;
-	// int		 nb_objs;
-	// int 	 nb_lights;
 };
 
 struct 	s_object {
+	t_object	*next;
 	t_vector vector;
 	t_type type;
 	t_color	color;
 	int specular;
 	t_values (*intersect)();
 	void (*move)(int x, int y);
-	void (*resize)(int ratio);
-	struct s_object *next;	
+	void (*resize)(int ratio);	
 };
 
 struct 	s_light {
+	t_object	*next;
 	t_vector position;
 	t_type type;
 	t_color	color;
@@ -90,6 +88,7 @@ struct 	s_light {
 };
 
 struct 	s_plane {
+	t_object	*next;
 	t_vector direction;
 	t_type type;
 	t_color	color;
@@ -102,6 +101,7 @@ struct 	s_plane {
 };
 
 struct 	s_sphere {
+	t_object	*next;
 	t_vector vector;
 	t_type type;
 	t_color	color;
@@ -127,6 +127,10 @@ void		my_mlx_pixel_put(t_data *img, int x, int y, int color);
 void* 		new_object(int size);
 t_object*	new_plane(t_vector coord, t_vector v, t_color color, int specular);
 t_object* 	new_sphere(t_vector coord, float diameter, t_color color, int specular);
+t_object	*parse_sphere(char *line);
+t_object    *parse_plane(char *line);
+t_object	*parse_point(char *line);
+t_object	*parse_ambient(char *line);
 
 void 		raytracer(t_vars *vars);
 void 		canvas_to_viewport(t_raytracer *rt, float x, float y);
@@ -137,7 +141,8 @@ t_light 	*new_light(float intensity, t_vector pos, t_type type);
 float 		compute_light(t_vars *vars, t_light *this, t_raylight *rl);
 
 //Parse
-void	map_loading(t_vars *vars, int fd, int index);
+t_object	*parse_next(t_type type, char *line);
+int		map_loading(t_vars *vars, int fd);
 int		strcmp_rt(char *a, char *extension);
 int		check_map(t_vars *vars);
 
@@ -149,9 +154,9 @@ char	*ft_substr(char const *s, unsigned int start, size_t len);
 int		ft_strcmp(char *s1, char *s2);
 int		ft_isdigit(int i);
 char	*ft_strchr(const char *s, int c);
+double  ft_atof(char **line, double sig, double tmp, double frac);
 
-t_object *lstlast(t_object *lst);
-void    lst_add_back(t_object **lst, t_type type);
-t_object    *lstnew(t_type type);
+void    lst_add_back(t_vars *vars, t_type type, char *line);
+void    light_add_back(t_vars *vars, t_type type, char *line);
 
 #endif

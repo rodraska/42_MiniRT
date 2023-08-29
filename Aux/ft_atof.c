@@ -1,4 +1,4 @@
-#include "test.h"
+#include "../includes/minirt.h"
 
 int atof_sig(char **line, double *sig)
 {

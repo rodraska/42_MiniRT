@@ -20,21 +20,24 @@ t_object *trace_ray(t_vars* vars ,t_raytracer* rt, float t_min, float t_max)
 {
 	float closest_t = INT_MAX;
 	t_object *closest_obj = NULL;
+	t_object *tmp;
+
 	int i = 0;
-	while (vars->objects[i])
+	tmp = vars->begin;
+	while (tmp)
 	{	
-        rt->t = vars->objects[i]->intersect(rt, vars->objects[i]); //get t1 and t2
+        rt->t = tmp->intersect(rt, tmp); //get t1 and t2
 		if (inside(rt->t.t1, t_min, t_max) && rt->t.t1 < closest_t ) 
 		{
             closest_t = rt->t.t1;
-            closest_obj = vars->objects[i];
+            closest_obj = tmp;
         }
         if (inside(rt->t.t2, t_min, t_max) && rt->t.t2 < closest_t) 
 		{
             closest_t = rt->t.t2;
-            closest_obj = vars->objects[i];
+            closest_obj = tmp;
         }
-		i++;
+		tmp = tmp->next;
     }
 	if (closest_obj)
 		light_prepare(*closest_obj, rt, closest_t);

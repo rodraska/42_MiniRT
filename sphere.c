@@ -22,18 +22,7 @@ static t_values intersect(t_raytracer *rt, t_sphere *this)
 	return local;
 }
 
-void	parse_sphere(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (!ft_isdigit(line[++i]))
-	{
-	}
-	
-}
-
-t_object* new_sphere(char *line)
+t_object* new_sphere(t_vector coord, float diameter, t_color color, int specular)
 {
 	t_sphere *sphere;
 
@@ -44,20 +33,28 @@ t_object* new_sphere(char *line)
 	sphere->color = color;
 	sphere->diameter = diameter;
 	sphere->specular = specular;
+	sphere->next = NULL;
 	return ((t_object *)sphere);
 }
 
-/* t_object* new_sphere(t_vector coord, float diameter, t_color color, int specular)
+t_object	*parse_sphere(char *line)
 {
-	t_sphere *sphere;
+	printf("sphere\n");
+    t_vector coord;
+    float   diameter;
+    t_color color;
 
-	sphere = new_object(sizeof(t_sphere));
-	sphere->intersect = intersect;
-	sphere->type = SPHERE;
-	sphere->vector = coord;
-	sphere->color = color;
-	sphere->diameter = diameter;
-	sphere->specular = specular;
-	return ((t_object *)sphere);
-} */
+    coord.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    coord.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    coord.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+
+    diameter = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+
+    color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+
+	return (new_sphere(coord, diameter, color, 100));
+}
+
 	

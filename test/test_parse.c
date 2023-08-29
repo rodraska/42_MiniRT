@@ -6,23 +6,23 @@ void    parse_camera(char *line)
     t_vector orientation;
     float fov;
 
-    coord.x = ft_atof(&line);
-    coord.y = ft_atof(&line);
-    coord.z = ft_atof(&line);
+    coord.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    coord.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    coord.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%f\n", coord.x);
     printf("%f\n", coord.y);
     printf("%f\n", coord.z);
 
-    orientation.x = ft_atof(&line);
-    orientation.y = ft_atof(&line);
-    orientation.z = ft_atof(&line);
+    orientation.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    orientation.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    orientation.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%f\n", orientation.x);
     printf("%f\n", orientation.y);
     printf("%f\n", orientation.z);
 
-    fov = ft_atof(&line);
+    fov = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%f\n", fov);
 
@@ -34,21 +34,21 @@ void    parse_point(char *line)
     float   ratio;
     t_color color;
 
-    coord.x = ft_atof(&line);
-    coord.y = ft_atof(&line);
-    coord.z = ft_atof(&line);
+    coord.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    coord.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    coord.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%f\n", coord.x);
     printf("%f\n", coord.y);
     printf("%f\n", coord.z);
 
-    ratio = ft_atof(&line);
+    ratio = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%f\n", ratio);
 
-    color.r = (int)ft_atof(&line);
-    color.g = (int)ft_atof(&line);
-    color.b = (int)ft_atof(&line);
+    color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%d\n", color.r);
     printf("%d\n", color.g);
@@ -60,13 +60,13 @@ void    parse_ambient(char *line)
     float i;
     t_color color;
 
-    i = ft_atof(&line);
+    i = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%f\n", i);
 
-    color.r = (int)ft_atof(&line);
-    color.g = (int)ft_atof(&line);
-    color.b = (int)ft_atof(&line);
+    color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%d\n", color.r);
     printf("%d\n", color.g);
@@ -82,33 +82,33 @@ void    parse_cylinder(char *line)
     float height;
     t_color color;
 
-    coord.x = ft_atof(&line);
-    coord.y = ft_atof(&line);
-    coord.z = ft_atof(&line);
+    coord.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    coord.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    coord.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%f\n", coord.x);
     printf("%f\n", coord.y);
     printf("%f\n", coord.z);
 
-    axis.x = ft_atof(&line);
-    axis.y = ft_atof(&line);
-    axis.z = ft_atof(&line);
+    axis.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    axis.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    axis.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%f\n", axis.x);
     printf("%f\n", axis.y);
     printf("%f\n", axis.z);
 
-    diameter = ft_atof(&line);
+    diameter = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%f\n", diameter);
 
-    height = ft_atof(&line);
+    height = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%f\n", height);
 
-    color.r = (int)ft_atof(&line);
-    color.g = (int)ft_atof(&line);
-    color.b = (int)ft_atof(&line);
+    color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%d\n", color.r);
     printf("%d\n", color.g);
@@ -121,21 +121,21 @@ void    parse_sphere(char *line)
     float   diameter;
     t_color color;
 
-    coord.x = ft_atof(&line);
-    coord.y = ft_atof(&line);
-    coord.z = ft_atof(&line);
+    coord.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    coord.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    coord.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%f\n", coord.x);
     printf("%f\n", coord.y);
     printf("%f\n", coord.z);
 
-    diameter = ft_atof(&line);
+    diameter = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%f\n", diameter);
 
-    color.r = (int)ft_atof(&line);
-    color.g = (int)ft_atof(&line);
-    color.b = (int)ft_atof(&line);
+    color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%d\n", color.r);
     printf("%d\n", color.g);
@@ -148,25 +148,25 @@ void    parse_plane(char *line)
     t_vector normal;
     t_color color;
 
-    coord.x = ft_atof(&line);
-    coord.y = ft_atof(&line);
-    coord.z = ft_atof(&line);
+    coord.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    coord.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    coord.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%f\n", coord.x);
     printf("%f\n", coord.y);
     printf("%f\n", coord.z);
 
-    normal.x = ft_atof(&line);
-    normal.y = ft_atof(&line);
-    normal.z = ft_atof(&line);
+    normal.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    normal.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    normal.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%f\n", normal.x);
     printf("%f\n", normal.y);
     printf("%f\n", normal.z);
 
-    color.r = (int)ft_atof(&line);
-    color.g = (int)ft_atof(&line);
-    color.b = (int)ft_atof(&line);
+    color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
 
     printf("%d\n", color.r);
     printf("%d\n", color.g);
@@ -174,18 +174,18 @@ void    parse_plane(char *line)
     
 }
 
-void    parse_next(t_type type, char *line)
+t_obj_list    *parse_next(t_type type, char *line)
 {
     if (type == PLANE)
-        parse_plane(line);
+        return (parse_plane(line));
     if (type == SPHERE)
-        parse_sphere(line);
+        return (parse_sphere(line));
     if (type == CYLINDER)
-        parse_cylinder(line);
+        return (parse_cylinder(line));
     if (type == AMBIENT)
-        parse_ambient(line);
+        return (parse_ambient(line));
     if (type == POINT)
-        parse_point(line);
+        return (parse_point(line));
 }
 
 t_type ft_get_type(char *line)

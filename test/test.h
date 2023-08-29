@@ -42,7 +42,8 @@ char	*get_next_line(int fd);
 static char	*ft_strjoin(char *s1, char *s2);
 static size_t	ft_strlen_nl(const char *str);
 int	ft_isdigit(int i);
-float ft_atof(char **line);
+double ft_atof(char **line, double sig, double tmp, double frac);
+int atof_sig(char **line, double *sig);
 int is_space(char c);
 
 #endif

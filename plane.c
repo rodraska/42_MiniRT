@@ -34,6 +34,29 @@ t_object* new_plane(t_vector coord, t_vector direction, t_color color, int specu
 	plane->color = color;
 	plane->direction = direction;
 	plane->specular = specular;
+	plane->next = NULL;
 	return ((t_object *)plane);
+}
+
+t_object    *parse_plane(char *line)
+{
+	printf("plane\n");
+    t_vector coord;
+    t_vector normal;
+    t_color color;
+
+    coord.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    coord.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    coord.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+
+    normal.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    normal.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    normal.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+
+    color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+
+	return (new_plane(coord, normal, color, 100));
 }
 	
