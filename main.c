@@ -27,6 +27,8 @@ int	main(int ac, char **av)
 		vars.map_file = av[1];
 		fd = check_map(&vars);
 		check_syntax(&vars);
+		/* if (test_syntax(vars.map_file) == 0)
+			ft_close(&vars); */
 		while (map_loading(&vars, fd))
 			;
 		close(fd);

@@ -45,5 +45,10 @@ int	ft_isdigit(int i);
 double ft_atof(char **line, double sig, double tmp, double frac);
 int atof_sig(char **line, double *sig);
 int is_space(char c);
+int ft_isspace(char c);
+int		check_float(char **line);
+int		check_int(char **line);
+int		check_vector(char **line);
+int		check_color(char **line);
 
 #endif

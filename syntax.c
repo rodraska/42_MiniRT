@@ -1,4 +1,4 @@
-#include "test.h"
+#include "includes/minirt.h"
 
 int		check_vector(char **line)
 {
@@ -173,26 +173,6 @@ int		check_ambient(char **line)
 	return (1);
 }
 
-t_type ft_get_type(char *line)
-{
-	if (line)
-    {
-        if (line[0] == '\n')
-            return EMPTY_LINE;
-        if (line[0] == 'A')
-            return AMBIENT;
-        if (line[0] == 'L')
-            return POINT;   
-        if ((line)[0] == 's' && (line)[1] == 'p') 
-            return SPHERE;
-        if ((line)[0] == 'p' && (line)[1] == 'l') 
-            return PLANE;
-        if ((line)[0] == 'c' && (line)[1] == 'y') 
-            return CYLINDER;
-    }
-	return ERROR;
-}
-
 int		check_repeat(t_type type)
 {
 	static int l;
@@ -213,7 +193,7 @@ int		test_syntax2(char *line, char **head, t_type type, int fd)
 {
 	while (line != NULL)
 	{
-		if (check_repeat(type) == 0 || type == ERROR)
+		if (check_repeat(type) == 0)
 			return (0);
 		if (type == PLANE && check_plane(&line) == 0)
 			return (0);
@@ -232,13 +212,15 @@ int		test_syntax2(char *line, char **head, t_type type, int fd)
 	return (1);
 }
 
-int		test_syntax(int fd)
+int		test_syntax(char *str)
 {
+	int	fd;
 	char *line;
 	char *head;
 	t_type type;
 	int	 	test;
 
+	fd = open(str, O_RDONLY);
 	line = get_next_line(fd);
 	head = line;
 	type = ft_get_type(line);
@@ -246,11 +228,4 @@ int		test_syntax(int fd)
 	if (test == 0)
 		free(head);
 	return (test);
-}
-
-int	main(void)
-{
-	int fd = open("scene.rt", O_RDONLY);
-	printf("%d\n", test_syntax(fd));
-	return (0);
 }

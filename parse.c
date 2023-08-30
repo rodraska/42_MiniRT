@@ -157,10 +157,3 @@ void	check_syntax(t_vars *vars)
 		
 	}
 }
-
-int	main(void)
-{
-	char *line = "4.67,3.87,9.0";
-	printf("%d\n", check_float(&line));
-	return (0);
-}

@@ -146,6 +146,7 @@ int		map_loading(t_vars *vars, int fd);
 int		strcmp_rt(char *a, char *extension);
 int		check_map(t_vars *vars);
 void	check_syntax(t_vars *vars);
+int		test_syntax(char *str);
 
 //Aux
 void	*ft_calloc(size_t nelem, size_t elsize);
@@ -156,6 +157,7 @@ int		ft_strcmp(char *s1, char *s2);
 int		ft_isdigit(int i);
 char	*ft_strchr(const char *s, int c);
 double  ft_atof(char **line, double sig, double tmp, double frac);
+int ft_isspace(char c);
 
 void    lst_add_back(t_vars *vars, t_type type, char *line);
 void    light_add_back(t_vars *vars, t_type type, char *line);
