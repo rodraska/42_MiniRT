@@ -124,36 +124,3 @@ int	check_map(t_vars *vars)
 	}
 	return (0);
 }
-
-int		check_float(char **line)
-{
-	int	i;
-
-	i = 0;
-	if (!ft_isdigit(*line) && *line != '+' && *line != '-')
-		return (0);
-	while (*line != ',')
-	{
-		if (!ft_isdigit(*line) && *line != '.')
-			return (0);
-		(*line)++;
-	}
-	return (1);
-}
-
-void	check_syntax(t_vars *vars)
-{
-	int fd;
-	char *line;
-	t_type type;
-
-	fd = open(vars->map_file, O_RDONLY);
-	line = get_next_line(fd);
-	while (line)
-	{
-		type = ft_get_type(line);
-		check_syntax2(type);
-		line = get_next_line(fd);
-		
-	}
-}

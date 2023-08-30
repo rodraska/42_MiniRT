@@ -25,6 +25,7 @@ SRCS = Aux/pixel_put.c \
 	   light.c \
 	   parse.c \
 	   color.c \
+	   syntax.c \
 
 OBJS	= ${SRCS:.c=.o}
 

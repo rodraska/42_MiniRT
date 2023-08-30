@@ -9,6 +9,7 @@ float compute_light(t_vars *vars, t_light *this, t_raylight *rl)
 	tmp = vars->light;
  	while(tmp)
 	{
+		printf("int: %i\n", tmp->intensity);
 		if (tmp->type == AMBIENT)
 			rl->i += tmp->intensity;
 		else
@@ -35,6 +36,7 @@ float compute_light(t_vars *vars, t_light *this, t_raylight *rl)
 		}
 		tmp = tmp->next;
 	}
+
 	return rl->i;
 }
 
