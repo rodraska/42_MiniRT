@@ -1,5 +1,40 @@
 #include "includes/minirt.h"
 
+int		check_float(char **line)
+{
+	int	f;
+
+	f = 0;
+	if (!ft_isdigit(**line) && **line != '+' && **line != '-')
+		return (0);
+    (*line)++;
+	while (**line && **line != ',' && !ft_isspace(**line))
+	{
+		if (**line == '.' && f == 0)
+			f = 1;
+		else if (**line == '.' && f == 1)
+			return (0);
+		else if (!ft_isdigit(**line) && **line != '.')
+			return (0);
+		(*line)++;
+	}
+	return (1);
+}
+
+int		check_int(char **line)
+{
+	if (!ft_isdigit(**line) && **line != '+' && **line != '-')
+		return (0);
+	(*line)++;
+	while (**line && **line != ',' && !ft_isspace(**line))
+	{
+		if (!ft_isdigit(**line))
+			return (0);
+		(*line)++;
+	}
+	return (1);
+}
+
 int		check_vector(char **line)
 {
 	if (check_float(line) == 0)
@@ -24,27 +59,6 @@ int		check_vector(char **line)
 		return (0);
 	if (!ft_isspace(**line) && **line)
 		return (0);
-	return (1);
-}
-
-int		check_float(char **line)
-{
-	int	f;
-
-	f = 0;
-	if (!ft_isdigit(**line) && **line != '+' && **line != '-')
-		return (0);
-    (*line)++;
-	while (**line && **line != ',' && !ft_isspace(**line))
-	{
-		if (**line == '.' && f == 0)
-			f = 1;
-		else if (**line == '.' && f == 1)
-			return (0);
-		else if (!ft_isdigit(**line) && **line != '.')
-			return (0);
-		(*line)++;
-	}
 	return (1);
 }
 
@@ -75,18 +89,17 @@ int		check_color(char **line)
 	return (1);
 }
 
-int		check_int(char **line)
+int     check_spec_ref(char **line)
 {
-	if (!ft_isdigit(**line) && **line != '+' && **line != '-')
+    if (check_float(line) == 0)
 		return (0);
-	(*line)++;
-	while (**line && **line != ',' && !ft_isspace(**line))
-	{
-		if (!ft_isdigit(**line))
-			return (0);
+	while (ft_isspace(**line))
 		(*line)++;
-	}
-	return (1);
+    if (check_float(line) == 0)
+		return (0);
+	while (ft_isspace(**line))
+		(*line)++;
+    return (1);
 }
 
 int		check_plane(char **line)
@@ -106,6 +119,8 @@ int		check_plane(char **line)
 		return (0);
 	while (ft_isspace(**line))
 		(*line)++;
+    if (check_spec_ref(line) == 0)
+        return (0);
 	if (**line && **line != '\n')
 		return (0);
 	return (1);
@@ -128,6 +143,8 @@ int		check_sphere(char **line)
 		return (0);
 	while (ft_isspace(**line))
 		(*line)++;
+    if (check_spec_ref(line) == 0)
+        return (0);
 	if (**line && **line != '\n')
 		return (0);
 	return (1);
@@ -201,7 +218,7 @@ int		test_syntax2(char *line, char **head, t_type type, int fd)
 			return (0);
 		else if (type == AMBIENT && check_ambient(&line) == 0)
 			return (0);
-		else if (type == POINT && check_light(&line) == 0)
+		else if ((type == POINT || type == DIRECTIONAL) && check_light(&line) == 0)
 			return (0);
 		free(*head);
 		line = get_next_line(fd);

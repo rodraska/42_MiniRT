@@ -1,90 +1,80 @@
 #include "includes/minirt.h"
 
-float compute_light(t_vars *vars, t_light *this, t_raylight *rl)
+int shadow_light(t_vars *vars, t_raytracer *rt)
 {
-	int j;
-	t_light *tmp;
+	t_object *obj;
+	t_raytracer newRT;
 
-	rl->i = 0.0f;
+	newRT = *(rt);
+	newRT.O = rt->rl.P;
+	newRT.D = rt->rl.L;
+	obj = closest_intersection(vars, &newRT, 0.001f, INT_MAX);
+	return (obj != NULL);
+}
+
+void specular_light(t_object *tmp, t_vars *vars, t_raytracer *rt)
+{
+	if (rt->rl.s)
+	{
+		rt->rl.aux = vector(2*dot(rt->rl.N, rt->rl.L), 2.0f*dot(rt->rl.N, rt->rl.L), 2.0f*dot(rt->rl.N, rt->rl.L));
+		rt->rl.R = vector_subtract(vector_multiply(rt->rl.N, rt->rl.aux), rt->rl.L);
+		rt->rl.r_dot_v = dot(rt->rl.R, rt->rl.V);
+		if(rt->rl.r_dot_v > 0.001f) 
+			rt->rl.i += tmp->intensity * pow(rt->rl.r_dot_v / (module(rt->rl.R)*module(rt->rl.V)), rt->rl.s);
+	}
+}
+
+void diffuse_light(t_object *tmp, t_vars *vars, t_raytracer *rt)
+{
+	rt->rl.n_dot_l = dot(rt->rl.N, rt->rl.L);
+	if (rt->rl.n_dot_l > 0.001f)
+		rt->rl.i += (tmp->intensity * rt->rl.n_dot_l)/(module(rt->rl.N)*module(rt->rl.L));
+}
+
+float compute_light(t_vars *vars, t_raytracer *rt)
+{
+	t_object *tmp;
+
+	rt->rl.i = 0.0f;
 	tmp = vars->light;
  	while(tmp)
-	{
-		printf("int: %i\n", tmp->intensity);
+	{	
 		if (tmp->type == AMBIENT)
-			rl->i += tmp->intensity;
+			rt->rl.i += tmp->intensity;
 		else
 		{
 			if (tmp->type == POINT)
-				rl->L = vector_subtract(tmp->position, rl->P);
+				rt->rl.L = vector_subtract(tmp->vector, rt->rl.P);
 			else if(tmp->type == DIRECTIONAL)
-				rl->L = tmp->position;
-
-			//Diffuse
-			rl->n_dot_l = dot(rl->N, rl->L);
-			if (rl->n_dot_l > 0.001f)
-				rl->i += (tmp->intensity * rl->n_dot_l)/(module(rl->N)*module(rl->L));
-			
-			//Specular
-			if (rl->s)
+				rt->rl.L = tmp->vector;
+			if (shadow_light(vars, rt))
 			{
-				rl->aux = vector(2*dot(rl->N, rl->L), 2*dot(rl->N, rl->L), 2*dot(rl->N, rl->L));
-				rl->R = vector_subtract(vector_multiply(rl->N, rl->aux), rl->L);
-				rl->r_dot_v = dot(rl->R, rl->V);
-				if(rl->r_dot_v > 0.001f) 
-					rl->i += tmp->intensity * pow(rl->r_dot_v / (module(rl->R)*module(rl->V)), rl->s);
+				tmp = tmp->next;
+			 	continue;
 			}
+			diffuse_light(tmp, vars, rt);
+			specular_light(tmp, vars, rt);
 		}
 		tmp = tmp->next;
 	}
-
-	return rl->i;
+	return rt->rl.i;
 }
 
-t_light *new_light(float intensity, t_vector pos, t_type type)
+t_object *new_light(char *line, t_type type)
 {
 	t_light *new_light;
 	
-	new_light = (t_light*)new_object(sizeof(t_light));
-	new_light->intensity = intensity;
-	new_light->position = vector(pos.x, pos.y, pos.z);
+	new_light = new_object(sizeof(t_light));
 	new_light->type = type;
-	return (new_light);
-}
-
-t_object	*parse_point(char *line)
-{
-    t_vector coord;
-    float   ratio;
-    t_color color;
-
-    coord.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-    coord.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-    coord.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-
-    ratio = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-
-    color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
-    color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
-    color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
-
-	return (new_light(ratio, coord, POINT));
-}
-
-t_object	*parse_ambient(char *line)
-{
-    float i;
-    t_color color;
-	t_vector coord;
-
-    i = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-
-    color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
-    color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
-    color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
-
-	coord.x = 0;
-	coord.y = 0;
-	coord.z = 0;
-
-	return (new_light(i, coord, AMBIENT));
+	if (new_light->type != AMBIENT)
+	{
+		new_light->vector.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	    new_light->vector.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	    new_light->vector.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	}
+	new_light->intensity = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    new_light->color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    new_light->color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    new_light->color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	return ((t_object *)new_light);
 }

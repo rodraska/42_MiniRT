@@ -6,8 +6,8 @@ void    lst_add_back(t_vars *vars, t_type type, char *line)
     static t_object *end;
     
     new = parse_next(type, line);
-    if (vars->begin == NULL)
-        vars->begin = new;
+    if (vars->object == NULL)
+        vars->object = new;
     else
         end->next = new;
     end = new;

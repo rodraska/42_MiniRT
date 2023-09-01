@@ -1,11 +1,12 @@
-#ifndef PARSE_H
-# define PARSE_H
+#ifndef VECTOR_H
+# define VECTOR_H
 
-typedef struct s_hash   t_hash;
+//Parse
+int			strcmp_rt(char *a, char *extension);
+int			check_map(t_vars *vars);
+t_object    *parse_next(t_type type, char *line);
+t_type		ft_get_type(char *line);
+int			map_loading(t_vars *vars, int fd);
 
-struct s_hash {
-    int key;
-    void (*ft_ptr)();
-};
 
 #endif

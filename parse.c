@@ -3,17 +3,19 @@
 t_object    *parse_next(t_type type, char *line)
 {
     if (type == PLANE)
-        return (parse_plane(line));
+        return (new_plane(line));
     if (type == SPHERE)
-        return (parse_sphere(line));
-    /* if (type == CYLINDER)
-        return (parse_cylinder(line)); */
+        return (new_sphere(line));
+/*     if (type == CYLINDER)
+        return (new_cylinder(line)); */
     if (type == AMBIENT)
-        return (parse_ambient(line));
-    if (type == POINT)
-        return (parse_point(line));
+        return (new_light(line, type));
+    if (type == DIRECTIONAL)
+        return (new_light(line, type));
+	if (type == POINT)
+        return (new_light(line, type));
 	else
-		return (parse_plane(line));
+		return (NULL);
 }
 
 t_type ft_get_type(char *line)
@@ -24,8 +26,10 @@ t_type ft_get_type(char *line)
             return EMPTY_LINE;
         if (line[0] == 'A')
             return AMBIENT;
-        if (line[0] == 'L')
+        if (line[0] == 'P')
             return POINT;   
+		if (line[0] == 'D')
+            return DIRECTIONAL; 
         if ((line)[0] == 's' && (line)[1] == 'p') 
             return SPHERE;
         if ((line)[0] == 'p' && (line)[1] == 'l') 
@@ -53,8 +57,8 @@ void ft_check_line(t_vars *vars, char *line)
     i = 0;
     while (line[i] && !ft_isdigit(line[i]) && line[i] != '+' && line[i] != '-')
         i++;
-	if (type != AMBIENT && type != POINT && type != DIRECTIONAL)
-		lst_add_back(vars, type, (line + i)) ;
+	if ((type != AMBIENT) && (type != POINT) && (type != DIRECTIONAL))
+		lst_add_back(vars, type, (line + i));
 	else
 		light_add_back(vars, type, (line + i));
 }
@@ -68,23 +72,6 @@ int	map_loading(t_vars *vars, int fd)
 		return (0);	
 	ft_check_line(vars, line);
 	free(line);
-	return (1);
-}
-
-int	strcmp_rt(char *a, char *extension)
-{
-	int		size;
-	int		j;
-
-	j = -1;
-	size = ft_strlen(a) - (ft_strlen(extension) + 1);
-	if (size < 0)
-		return 0;
-	while (a[++size])
-	{
-		if (a[size] != extension[++j])
-			return (0);
-	}
 	return (1);
 }
 
@@ -113,7 +100,6 @@ int	check_map(t_vars *vars)
 	else
 	{
 		fd = open(vars->map_file, O_RDONLY);
-		printf("fd1: %d\n", fd);
 		if (fd == -1)
 		{
 			write(1, "That file is not in the repository.\n", 37);
@@ -124,3 +110,5 @@ int	check_map(t_vars *vars)
 	}
 	return (0);
 }
+
+
