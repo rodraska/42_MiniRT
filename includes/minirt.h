@@ -6,7 +6,7 @@
 /*   By: rreis-de <rreis-de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/09/01 13:36:40 by rreis-de         ###   ########.fr       */
+/*   Updated: 2023/09/01 15:50:03 by rreis-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@ struct	s_vars {
 	t_object *object;
 	t_object *light;
 	t_object *select;
+	char buf[1000][1000];
+	pthread_t	*thread;
+	int		n_threads;
 	char 	 *map_file;
 };
 
@@ -210,6 +213,10 @@ int		ft_isspace(char c);
 double  ft_atof(char **line, double sig, double tmp, double frac);
 void    lst_add_back(t_vars *vars, t_type type, char *line);
 void    light_add_back(t_vars *vars, t_type type, char *line);
+
+t_vars *vars();
+int ft_init_threads();
+int ft_join_threads();
 
 
 t_vector	rotation_x(t_camera *this);

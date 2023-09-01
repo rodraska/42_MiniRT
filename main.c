@@ -1,5 +1,11 @@
 #include "includes/minirt.h"
 
+t_vars *vars()
+{
+	static t_vars my_vars;
+	return (&my_vars);
+}
+
 void init_window(t_vars *vars)
 {
 	vars->mlx = mlx_init();
@@ -16,27 +22,12 @@ void init_window(t_vars *vars)
 
 int	main(int ac, char **av)
 {
-	static t_vars vars;
-	int fd;
-
 	if (ac == 2)
 	{
-		//vars = (t_vars*)calloc(sizeof(t_vars), 1);
-		vars.map_file = av[1];
-		fd = check_map(&vars);
-		if (!test_syntax(vars.map_file))
-		{
-			close(&vars);
-			return (0);
-		}
-		while (map_loading(&vars, fd))
-			;
-		close(fd);
-		init_window(&vars);
-		mlx_loop_hook(vars.mlx, raytracer, &vars);	
-		//raytracer(&vars);
-		mlx_loop(vars.mlx);
-		//free(vars);
+		vars()->n_threads = 5;
+		vars()->thread = (pthread_t *)malloc(sizeof(pthread_t) * vars()->n_threads);
+		ft_init_threads();
+		ft_join_threads();
 	}
 	else
 		write(1, "Not enough arguments\n", 22);
