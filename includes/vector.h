@@ -11,6 +11,7 @@
 # include <fcntl.h>
 # include <pthread.h>
 # include <stdint.h>
+# include <semaphore.h>
 
 # include "../minilibx/mlx.h"
 # include "X11/X.h"

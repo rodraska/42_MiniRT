@@ -2,7 +2,7 @@ NAME = miniRT
 
 CC = cc
 
-CFLAGS = -O1 -Wall -Wextra -pthread -fsanitize=address -g #-Werror -fsanitize=address -g
+CFLAGS = -O1 -Wall -Wextra -fsanitize=address -g#-Werror -fsanitize=address -g
 
 SRCS = Aux/pixel_put.c \
 	   Aux/vector.c \
@@ -28,7 +28,6 @@ SRCS = Aux/pixel_put.c \
 	   parse.c \
 	   color.c \
 	   camera.c \
-	   syntax.c \
 	   threads.c
 
 OBJS	= ${SRCS:.c=.o}
