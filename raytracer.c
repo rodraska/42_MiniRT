@@ -23,6 +23,7 @@ void light_prepare(t_raytracer* rt, t_object *obj)
 
 t_object *closest_intersection(t_raytracer *rt, float t_min, float t_max)
 {
+	
 	t_object *obj;
 	t_object *tmp;
 
@@ -44,6 +45,10 @@ t_object *closest_intersection(t_raytracer *rt, float t_min, float t_max)
         }
 		tmp = tmp->next;
     }
+	/* if (obj != NULL)
+		printf("obj %d\n", obj->type);
+	else
+		printf("nada\n"); */
 	return obj;
 }
 
@@ -67,6 +72,7 @@ int new_trace_ray(t_object *last_obj, t_vector O, t_vector D, t_scene *scene ,t_
 	obj = NULL;
 	newRT.O = O;
 	newRT.D = D;
+
 	obj = closest_intersection(&newRT, 0.001f, INT_MAX);
     if (!(obj) || (last_obj && obj == last_obj))
        return BLACK;

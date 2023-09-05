@@ -8,6 +8,8 @@ t_object    *parse_next(t_type type, char *line)
         return (new_sphere(line));
 /*     if (type == CYLINDER)
         return (new_cylinder(line)); */
+	if (type == CONE)
+		return (new_cone(line));
     if (type == AMBIENT)
         return (new_light(line, type));
     if (type == DIRECTIONAL)
@@ -36,6 +38,8 @@ t_type ft_get_type(char *line)
             return PLANE;
         if ((line)[0] == 'c' && (line)[1] == 'y') 
             return CYLINDER;
+		if ((line)[0] == 'c' && (line)[1] == 'n') 
+            return CONE;
     }
 	return ERROR;
 }

@@ -121,6 +121,12 @@ int	main(int ac, char **av)
 	i = 0;
 	if (ac == 2)
 	{
+		if (!test_syntax(av[1]))
+		{
+			close(&vars);
+			printf("Bad Map\n");
+			return (0);
+		}
 		while (av[++i])
 			create_scene(av[i]);
 		init_window(vars());

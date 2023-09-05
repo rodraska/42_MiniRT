@@ -10,7 +10,6 @@ void    raytracer_threads(t_ray_thread *thread)
     t_raytracer rt;
     t_scene *scene;
 
-    //printf("index %d\n", thread->index);
     scene = vars()->scene;
     bzero(&rt, sizeof(t_raytracer));
     rt.O = vector(0, 0, 0);
@@ -39,8 +38,7 @@ void    *routine(void *arg)
 
     thread = (t_ray_thread*)arg;
     while (1)
-    {  
-        //printf("OLA %d %d\n", thread->x_i, thread->x_f);
+    {
         pthread_mutex_lock(&thread->th_mut);
         raytracer_threads(thread);
         pthread_mutex_lock(&vars()->mut);
