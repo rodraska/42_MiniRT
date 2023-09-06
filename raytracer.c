@@ -45,10 +45,6 @@ t_object *closest_intersection(t_raytracer *rt, float t_min, float t_max)
         }
 		tmp = tmp->next;
     }
-	/* if (obj != NULL)
-		printf("obj %d\n", obj->type);
-	else
-		printf("nada\n"); */
 	return obj;
 }
 

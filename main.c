@@ -6,6 +6,30 @@ t_vars *vars()
 	return (&my_vars);
 }
 
+double	get_timestamp(void)
+{
+	static struct timeval	init;
+	struct timeval			curr;
+	double					time;
+
+	gettimeofday(&curr, NULL);
+	if (init.tv_sec == 0 && init.tv_usec == 0)
+		init = curr;
+	time = curr.tv_sec * 1000 + curr.tv_usec / 1000.0 \
+	- init.tv_sec * 1000 - init.tv_usec / 1000.0;
+	if (time < 0)
+		return (0);
+	return (time);
+}
+
+void	my_sleep(double duration)
+{
+	double	now;
+
+	now = get_timestamp();
+	while (get_timestamp() - now < duration);
+}
+
 void paint_chunk(t_ray_thread *thread)
 {
 	int	x;
@@ -33,7 +57,12 @@ void paint_chunk(t_ray_thread *thread)
 void paint()
 {
 	int	n;
+	static int cnt;
+	double	time;
+	double  fps;
+	double	wait;
 
+	
 	pthread_mutex_lock(&vars()->mut);
     if (vars()->count != vars()->n_threads)
 	{
@@ -42,18 +71,32 @@ void paint()
 	}
 	vars()->count = 0;
 
-
 	n = -1;
 	while (++n < vars()->n_threads)
 		paint_chunk(&vars()->thread[n]);
 	
 	mlx_put_image_to_window(vars()->mlx, vars()->win, vars()->img.img, 0, 0);
 
+	time = get_timestamp();
+	if (cnt == 0)
+		cnt = 1;
+	else
+		cnt++;
+	fps = ((double)cnt / time) * 1000;
+	//printf("cnt %d\n", cnt);
+	//printf("time %f\n", time);
+
+	/* wait = ((1.0 / 5.0) - (1 / fps)) * 1000.0;
+	printf("wait %f\n", wait);
+	if (wait > 0)
+		my_sleep(wait); */
+
 	n = -1;
 	while (++n < vars()->n_threads)
 		pthread_mutex_unlock(&vars()->thread[n].th_mut);
 	pthread_mutex_unlock(&vars()->mut);
 }
+
 
 void init_window(t_vars *vars)
 {

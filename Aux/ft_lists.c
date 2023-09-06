@@ -4,9 +4,7 @@ void    lst_add_back(t_scene *scene,t_type type, char *line)
 {
     t_object *new;
     
-    printf("lst1 %d\n", type);
     new = parse_next(type, line);
-    printf("lst2 %d\n", new->color.r);
     if (scene->object == NULL)
         scene->object = new;
     else
