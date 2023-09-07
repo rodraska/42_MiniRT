@@ -60,7 +60,7 @@ void paint()
 	static int cnt;
 	double	time;
 	double  fps;
-	double	wait;
+	static double	wait;
 
 	
 	pthread_mutex_lock(&vars()->mut);
@@ -85,11 +85,11 @@ void paint()
 	fps = ((double)cnt / time) * 1000;
 	//printf("cnt %d\n", cnt);
 	//printf("time %f\n", time);
-
-	/* wait = ((1.0 / 5.0) - (1 / fps)) * 1000.0;
+	printf("fps %f\n", fps);
+	wait = ((1.0 / 5.0) - (1 / fps)) * 1000.0;
 	printf("wait %f\n", wait);
 	if (wait > 0)
-		my_sleep(wait); */
+		my_sleep(wait);
 
 	n = -1;
 	while (++n < vars()->n_threads)
@@ -173,7 +173,7 @@ int	main(int ac, char **av)
 		while (av[++i])
 			create_scene(av[i]);
 		init_window(vars());
-		vars()->n_threads = 8;
+		vars()->n_threads = 10;
 		ft_init_threads();
 		mlx_loop_hook(vars()->mlx, paint, NULL);
 		mlx_loop(vars()->mlx);

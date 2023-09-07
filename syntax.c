@@ -150,6 +150,34 @@ int		check_sphere(char **line)
 	return (1);
 }
 
+int		check_cone(char **line)
+{
+	(*line) += 2;
+	while (ft_isspace(**line))
+		(*line)++;
+	if (check_vector(line) == 0)
+		return (0);
+	while (ft_isspace(**line))
+		(*line)++;
+	if (check_vector(line) == 0)
+		return (0);
+	while (ft_isspace(**line))
+		(*line)++;
+	if (check_float(line) == 0)
+		return (0);
+	while (ft_isspace(**line))
+		(*line)++;
+	if (check_color(line) == 0)
+		return (0);
+	while (ft_isspace(**line))
+		(*line)++;
+	if (check_spec_ref(line) == 0)
+        return (0);
+	if (**line && **line != '\n')
+		return (0);
+	return (1);
+}
+
 int		check_light(char **line)
 {
 	(*line)++;
@@ -217,6 +245,8 @@ int		test_syntax2(char *line, char **head, t_type type, int fd)
 		else if (type == SPHERE && check_sphere(&line) == 0)
 			return (0);
 		else if (type == AMBIENT && check_ambient(&line) == 0)
+			return (0);
+		else if (type == CONE && check_cone(&line) == 0)
 			return (0);
 		else if ((type == POINT || type == DIRECTIONAL) && check_light(&line) == 0)
 			return (0);

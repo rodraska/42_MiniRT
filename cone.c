@@ -3,8 +3,7 @@
 static t_values intersect(t_raytracer *rt, t_cone *this)
 {
     t_values local;
-    t_vector p1;
-    t_vector p2;
+    t_vector p;
     float    value;
 
     rt->CO = vector_subtract(rt->O, this->vector);
@@ -20,13 +19,13 @@ static t_values intersect(t_raytracer *rt, t_cone *this)
 	}
 	local.t1 = ((-(rt->b) + sqrt(rt->discriminant)) / (2.0f*rt->a));
 	local.t2 = ((-(rt->b) - sqrt(rt->discriminant)) / (2.0f*rt->a));
-    p1 = vector_add(rt->O, vector_multiply(vector(local.t1, local.t1, local.t1), rt->D));
-    p2 = vector_add(rt->O, vector_multiply(vector(local.t2, local.t2, local.t2), rt->D));
-    value = dot(vector_subtract(p1, this->vector), this->direction);
-    if (value < 0 || value > dot(this->direction, this->direction))
+    p = vector_add(rt->O, vector_mult_const(rt->D, local.t1));
+    value = dot(vector_subtract(p, this->vector), this->direction);
+    if (value < 0 || value > module(this->tmp))
         local.t1 = INT_MAX;
-    value = dot(vector_subtract(p2, this->vector), this->direction);
-    if (value < 0 || value > dot(this->direction, this->direction))
+    p = vector_add(rt->O, vector_mult_const(rt->D, local.t2));
+    value = dot(vector_subtract(p, this->vector), this->direction);
+    if (value < 0 || value > module(this->tmp))
         local.t2 = INT_MAX; 
 	return local;
 }
@@ -44,9 +43,10 @@ t_object* new_cone(char *line)
     cone->base.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
     cone->base.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
     cone->base.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-    cone->direction = vector_subtract(cone->base, cone->vector);
-    cone->radius = ft_atof(&line, 1.0f, 0.0f, 0.0f) * (M_PI / 180.0);
-    cone->m = pow(cone->radius / dot(cone->direction, cone->direction), 2);
+    cone->tmp = vector_subtract(cone->base, cone->vector);
+    cone->direction = vector_div_const(cone->tmp, module(cone->tmp));
+    cone->radius = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+    cone->m = pow(cone->radius / module(cone->tmp), 2);
     cone->color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
     cone->color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
     cone->color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
