@@ -3,11 +3,14 @@
 static t_values intersect(t_raytracer *rt, t_cone *this)
 {
     t_values local;
+    t_vector p1;
+    t_vector p2;
+    float    value;
 
     rt->CO = vector_subtract(rt->O, this->vector);
     rt->a = dot(rt->D, rt->D) - this->m * pow(dot(rt->D, this->direction), 2) - pow(dot(rt->D, this->direction), 2);
     rt->b = 2 * (dot(rt->D, rt->CO) - this->m * dot(rt->D, this->direction) * dot(rt->CO, this->direction) - dot(rt->D, this->direction) * dot(rt->CO, this->direction));
-    rt->c = dot(rt->CO, rt->CO) - this->m * dot(rt->CO, this->direction) - pow(dot(rt->CO, this->direction), 2);
+    rt->c = dot(rt->CO, rt->CO) - this->m * pow(dot(rt->CO, this->direction), 2) - pow(dot(rt->CO, this->direction), 2);
     rt->discriminant = rt->b*rt->b - 4.0f*(rt->a)*(rt->c);
 	if (rt->discriminant < 0.0001f) //sem solucao
 	{
@@ -17,6 +20,14 @@ static t_values intersect(t_raytracer *rt, t_cone *this)
 	}
 	local.t1 = ((-(rt->b) + sqrt(rt->discriminant)) / (2.0f*rt->a));
 	local.t2 = ((-(rt->b) - sqrt(rt->discriminant)) / (2.0f*rt->a));
+    p1 = vector_add(rt->O, vector_multiply(vector(local.t1, local.t1, local.t1), rt->D));
+    p2 = vector_add(rt->O, vector_multiply(vector(local.t2, local.t2, local.t2), rt->D));
+    value = dot(vector_subtract(p1, this->vector), this->direction);
+    if (value < 0 || value > dot(this->direction, this->direction))
+        local.t1 = INT_MAX;
+    value = dot(vector_subtract(p2, this->vector), this->direction);
+    if (value < 0 || value > dot(this->direction, this->direction))
+        local.t2 = INT_MAX; 
 	return local;
 }
 
