@@ -86,11 +86,26 @@ void paint()
 	//printf("cnt %d\n", cnt);
 	//printf("time %f\n", time);
 	printf("fps %f\n", fps);
-	wait = ((1.0 / 5.0) - (1 / fps)) * 1000.0;
+	//wait = ((1.0 / 5.0) - (1 / fps)) * 1000.0;
+	if (wait == 0)
+		wait = 50;
+	if (fps > 5)
+	{
+		H;
+		wait += 10;
+	}
+	else
+	{
+		T;
+		wait -= 10;
+	}
+		
 	printf("wait %f\n", wait);
 	if (wait > 0)
+	{
+		//usleep(wait * 1000);
 		my_sleep(wait);
-
+	}
 	n = -1;
 	while (++n < vars()->n_threads)
 		pthread_mutex_unlock(&vars()->thread[n].th_mut);
@@ -136,26 +151,6 @@ int create_scene(char *arg)
 	end_scene = head;
 	return 0;
 }
-
-/* int	main(int ac, char **av)
-{
-
-	int i;
-	i = 0;
-	if (ac == 2)
-	{
-		//vars = (t_vars*)calloc(sizeof(t_vars), 1);
-		while (av[++i])
-			create_scene(av[i]);
-		init_window(vars());
-		mlx_loop_hook(vars()->mlx, raytracer, NULL);	
-		//raytracer(&vars);
-		mlx_loop(vars()->mlx);
-		//free(vars);
-	}
-	else
-		write(1, "Not enough arguments\n", 22);
-} */
 
 int	main(int ac, char **av)
 {
