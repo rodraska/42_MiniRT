@@ -21,7 +21,7 @@ static t_values intersect(t_raytracer *rt, t_cone *this)
 	local.t2 = ((-(rt->b) - sqrt(rt->discriminant)) / (2.0f*rt->a));
     p = vector_add(rt->O, vector_mult_const(rt->D, local.t1));
     value = dot(vector_subtract(p, this->vector), this->direction);
-    if (value < 0 || value > module(this->tmp))
+    if (value < 0.0 || value > module(this->tmp))
         local.t1 = INT_MAX;
     p = vector_add(rt->O, vector_mult_const(rt->D, local.t2));
     value = dot(vector_subtract(p, this->vector), this->direction);

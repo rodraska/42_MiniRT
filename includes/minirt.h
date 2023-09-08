@@ -6,7 +6,7 @@
 /*   By: rreis-de <rreis-de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/09/08 16:27:57 by rreis-de         ###   ########.fr       */
+/*   Updated: 2023/09/08 20:30:08 by rreis-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -273,6 +273,6 @@ int		check_plane(char **line);
 int     check_spec_ref(char **line);
 int		check_color(char **line);
 int		check_vector(char **line);
-int		check_float(char **line);
+int		check_float(char **line, int g);
 
 #endif
