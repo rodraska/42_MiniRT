@@ -5,6 +5,8 @@ int		check_float(char **line)
 	int	f;
 
 	f = 0;
+	while (ft_isspace(**line))
+		(*line)++;
 	if (!ft_isdigit(**line) && **line != '+' && **line != '-')
 		return (0);
     (*line)++;
@@ -23,6 +25,8 @@ int		check_float(char **line)
 
 int		check_int(char **line)
 {
+	while (ft_isspace(**line))
+		(*line)++;
 	if (!ft_isdigit(**line) && **line != '+' && **line != '-')
 		return (0);
 	(*line)++;
@@ -44,8 +48,6 @@ int		check_vector(char **line)
 	if (**line != ',')
 		return (0);
 	(*line)++;
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_float(line) == 0)
 		return (0);
 	while (ft_isspace(**line))
@@ -53,8 +55,6 @@ int		check_vector(char **line)
 	if (**line != ',')
 		return (0);
 	(*line)++;
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_float(line) == 0)
 		return (0);
 	if (!ft_isspace(**line) && **line)
@@ -71,8 +71,6 @@ int		check_color(char **line)
 	if (**line != ',')
 		return (0);
 	(*line)++;
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_int(line) == 0)
 		return (0);
 	while (ft_isspace(**line))
@@ -80,8 +78,6 @@ int		check_color(char **line)
 	if (**line != ',')
 		return (0);
 	(*line)++;
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_int(line) == 0)
 		return (0);
 	if (!ft_isspace(**line) && **line)
@@ -93,8 +89,6 @@ int     check_spec_ref(char **line)
 {
     if (check_float(line) == 0)
 		return (0);
-	while (ft_isspace(**line))
-		(*line)++;
     if (check_float(line) == 0)
 		return (0);
 	while (ft_isspace(**line))
@@ -105,20 +99,12 @@ int     check_spec_ref(char **line)
 int		check_plane(char **line)
 {
 	(*line) += 2;
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_vector(line) == 0)
 		return (0);
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_vector(line) == 0)
 		return (0);
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_color(line) == 0)
 		return (0);
-	while (ft_isspace(**line))
-		(*line)++;
     if (check_spec_ref(line) == 0)
         return (0);
 	if (**line && **line != '\n')
@@ -129,20 +115,12 @@ int		check_plane(char **line)
 int		check_sphere(char **line)
 {
 	(*line) += 2;
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_vector(line) == 0)
 		return (0);
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_float(line) == 0)
 		return (0);
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_color(line) == 0)
 		return (0);
-	while (ft_isspace(**line))
-		(*line)++;
     if (check_spec_ref(line) == 0)
         return (0);
 	if (**line && **line != '\n')
@@ -153,24 +131,34 @@ int		check_sphere(char **line)
 int		check_cone(char **line)
 {
 	(*line) += 2;
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_vector(line) == 0)
 		return (0);
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_vector(line) == 0)
 		return (0);
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_float(line) == 0)
 		return (0);
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_color(line) == 0)
 		return (0);
-	while (ft_isspace(**line))
-		(*line)++;
+	if (check_spec_ref(line) == 0)
+        return (0);
+	if (**line && **line != '\n')
+		return (0);
+	return (1);
+}
+
+int		check_cylinder(char **line)
+{
+	(*line) += 2;
+	if (check_vector(line) == 0)
+		return (0);
+	if (check_vector(line) == 0)
+		return (0);
+	if (check_float(line) == 0)
+		return (0);
+	if (check_float(line) == 0)
+		return (0);
+	if (check_color(line) == 0)
+		return (0);
 	if (check_spec_ref(line) == 0)
         return (0);
 	if (**line && **line != '\n')
@@ -181,16 +169,10 @@ int		check_cone(char **line)
 int		check_light(char **line)
 {
 	(*line)++;
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_vector(line) == 0)
 		return (0);
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_float(line) == 0)
 		return (0);
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_color(line) == 0)
 		return (0);
 	while (ft_isspace(**line))
@@ -203,18 +185,31 @@ int		check_light(char **line)
 int		check_ambient(char **line)
 {
 	(*line)++;
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_float(line) == 0)
 		return (0);
-	while (ft_isspace(**line))
-		(*line)++;
 	if (check_color(line) == 0)
 		return (0);
 	while (ft_isspace(**line))
 		(*line)++;
 	if (**line && **line != '\n')
 		return (0);
+	return (1);
+}
+
+int		check_camera(char **line, int *f)
+{
+	(*line)++;
+	if (check_vector(line) == 0)
+		return (0);
+	if (check_vector(line) == 0)
+		return (0);
+	if (check_float(line) == 0)
+		return (0);
+	while (ft_isspace(**line))
+		(*line)++;
+	if (**line && **line != '\n')
+		return (0);
+	*f = 1;
 	return (1);
 }
 
@@ -234,8 +229,18 @@ int		check_repeat(t_type type)
 	return (1);
 }
 
+void	test_syntax_helper(char **line, char **head, t_type *type, int fd)
+{
+	free(*head);
+	*line = get_next_line(fd);
+	*head = *line;
+	*type = ft_get_type(*line);
+}
+
 int		test_syntax2(char *line, char **head, t_type type, int fd)
 {
+	static int f;
+
 	while (line != NULL)
 	{
 		if (check_repeat(type) == 0)
@@ -248,14 +253,15 @@ int		test_syntax2(char *line, char **head, t_type type, int fd)
 			return (0);
 		else if (type == CONE && check_cone(&line) == 0)
 			return (0);
+		else if (type == CAMERA && check_camera(&line, &f) == 0)
+			return (0);
 		else if ((type == POINT || type == DIRECTIONAL) && check_light(&line) == 0)
 			return (0);
-		free(*head);
-		line = get_next_line(fd);
-		*head = line;
-		type = ft_get_type(line);
+		test_syntax_helper(&line, head, &type, fd);
 	}
 	free(*head);
+	/* if (f == 0)
+		return (0); */
 	return (1);
 }
 
