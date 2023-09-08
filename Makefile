@@ -30,6 +30,8 @@ SRCS = Aux/pixel_put.c \
 	   camera.c \
 	   threads.c \
 	   syntax.c \
+	   syntax2.c \
+	   syntax3.c \
 	   cone.c
 
 OBJS	= ${SRCS:.c=.o}

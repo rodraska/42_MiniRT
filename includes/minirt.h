@@ -6,7 +6,7 @@
 /*   By: rreis-de <rreis-de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/09/07 14:19:59 by rreis-de         ###   ########.fr       */
+/*   Updated: 2023/09/08 16:27:57 by rreis-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -263,5 +263,16 @@ int ft_join_threads();
 t_vector	rotation_x(t_camera *this);
 t_vector	rotation_y(t_camera *this);
 t_vector	rotation_z(t_camera *this);
+
+int		check_ambient(char **line);
+int		check_light(char **line);
+int		check_cylinder(char **line);
+int		check_cone(char **line);
+int		check_sphere(char **line);
+int		check_plane(char **line);
+int     check_spec_ref(char **line);
+int		check_color(char **line);
+int		check_vector(char **line);
+int		check_float(char **line);
 
 #endif
