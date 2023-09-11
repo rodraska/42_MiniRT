@@ -1,4 +1,4 @@
-#include "includes/minirt.h"
+#include "../includes/minirt.h"
 
 /* Esta funcao recebe uma esfera e um raio retorna 
 os pixels onde intersetam.
@@ -26,18 +26,20 @@ t_object* new_sphere(char *line)
 {
 	t_sphere *sphere;
 
+	// if (!check_sphere())
+	// 	return NULL;
 	sphere = new_object(sizeof(t_sphere));
 	sphere->intersect = intersect;
 	sphere->type = SPHERE;
-	sphere->vector.x = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-	sphere->vector.y = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-	sphere->vector.z = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-	sphere->diameter = ft_atof(&line, 1.0f, 0.0f, 0.0f);
-	sphere->color.r = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
-    sphere->color.g = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
-    sphere->color.b = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
-	sphere->specular = (int)ft_atof(&line, 1.0f, 0.0f, 0.0f);
-	sphere->refletive = ft_atof(&line, 1.0f, 0.0f, 0.0f);
+	sphere->vector.x = ft_atof(&line);
+	sphere->vector.y = ft_atof(&line);
+	sphere->vector.z = ft_atof(&line);
+	sphere->diameter = ft_atof(&line);
+	sphere->color.r = (int)ft_atof(&line);
+    sphere->color.g = (int)ft_atof(&line);
+    sphere->color.b = (int)ft_atof(&line);
+	sphere->specular = (int)ft_atof(&line);
+	sphere->refletive = ft_atof(&line);
 	sphere->next = NULL;
 	return ((t_object *)sphere);
 }

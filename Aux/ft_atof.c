@@ -1,4 +1,14 @@
-#include "../includes/minirt.h"
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_atof.c                                          :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: duarte33 <duarte33@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/09/10 18:41:39 by duarte33          #+#    #+#             */
+/*   Updated: 2023/09/10 18:41:40 by duarte33         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../includes/minirt.h"
 
@@ -15,33 +25,38 @@ int atof_sig(char **line, double *sig)
     return (1);
 }
 
-double  ft_atof(char **line, double sig, double tmp, double frac)
+void start_atof(t_atof *atof)
 {
-    double n;
-    double size;
-    int flag;
+    atof->frac = 0.0f;
+    atof->sig = 1.0f;
+    atof->tmp = 0.0f;
+    atof->size = 10.0f;
+    atof->flag = 0;
+}
 
-    flag = 0;
-    size = 10.0f;
+double  ft_atof(char **line)
+{
+    t_atof atof;
+
+    start_atof(&atof);
     while (**line && **line != ',' && **line != 32 && **line != 9)
     {
-        if (!atof_sig(line, &sig))
+        if (!atof_sig(line, &atof.sig))
             break ;
-        if (ft_isdigit(**line) && !flag)
-            tmp = tmp * 10.0f + (**line - 48);
-        if (ft_isdigit(**line) && flag)
+        if (ft_isdigit(**line) && !atof.flag)
+            atof.tmp = atof.tmp * 10.0f + (**line - 48);
+        if (ft_isdigit(**line) && atof.flag)
         {
-            frac += (**line - 48) / size;
-            size *= 10.0f;
+            atof.frac += (**line - 48) / atof.size;
+            atof.size *= 10.0f;
         }
         if (**line == '.')
-            flag = 1;
+            atof.flag = 1;
         (*line)++;
     }
     while (**line && ((**line == 32 || **line == 9) || **line == ','))
         (*line)++;
-    n = (tmp + frac) * sig;
-    return (n);
+    return ((atof.tmp + atof.frac) * atof.sig);
 }
 
 /* int main(void)
