@@ -79,7 +79,10 @@ int	main(int ac, char **av)
 		while (av[++i])
 		{			
 			if (!create_scene(av[i]))
+			{
 				printf("Bad Map: %s\n", av[i]);
+				return (0);
+			}
 		}
 		init_window(vars());
 		vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN) - 4;

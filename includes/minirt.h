@@ -6,7 +6,7 @@
 /*   By: rreis-de <rreis-de@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/10/29 18:29:15 by dsa-mora          #+#    #+#             */
-/*   Updated: 2023/09/11 15:48:53 by rreis-de         ###   ########.fr       */
+/*   Updated: 2023/09/12 14:25:38 by rreis-de         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,7 +225,6 @@ struct s_cone
 	t_vector tmp;
 	float 	 m;
 	float	 radius;
-	float	 theta;
 };
 
 t_vars *vars();
