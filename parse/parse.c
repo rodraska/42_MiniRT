@@ -29,6 +29,8 @@ t_type ft_get_type(char *line)
             return CYLINDER;
 		if ((line)[0] == 'c' && (line)[1] == 'n') 
             return CONE;
+		if (line[0] == '#')
+			return COMMENT;
     }
 	return ERROR;
 }
@@ -102,7 +104,6 @@ int	check_map()
 			write(1, "That file is not in the repository.\n", 37);
 			ft_close (vars);
 		}
-		//check_empty(vars, get_next_line(fd));
 		return (fd);
 	}
 	return (0);

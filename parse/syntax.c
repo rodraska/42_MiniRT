@@ -18,25 +18,18 @@ static int	check_camera(char **line)
 
 static int	check_repeat(t_type type)
 {
-	static int l;
-	static int a;
-	static int c;
-
-	//printf("ola %d\n", type);
-	//printf("f %d\n", vars()->last->f[0]);
-	if (type == AMBIENT && vars()->last->f[0] == 0)
+	/* if (type == AMBIENT && vars()->last->f[0] == 0)
 		vars()->last->f[0] = 1;
 	else if (type == AMBIENT && vars()->last->f[0] == 1)
 		return (0);
 	else if (type == POINT && vars()->last->f[1] == 0)
 		vars()->last->f[1] = 1;
 	else if (type == POINT && vars()->last->f[1] == 1)
+		return (0); */
+	if (type == CAMERA && vars()->last->f == 0)
+		vars()->last->f = 1;
+	else if (type == CAMERA && vars()->last->f == 1)
 		return (0);
-	else if (type == CAMERA && vars()->last->f[2] == 0)
-		vars()->last->f[2] = 1;
-	else if (type == CAMERA && vars()->last->f[2] == 1)
-		return (0);
-	//printf("adeus\n");
 	return (1);
 }
 
@@ -50,9 +43,6 @@ static void	test_syntax_helper(char **line, char **head, t_type *type, int fd)
 
 static int	test_syntax2(char *line, char **head, t_type type, int fd)
 {
-	int f;
-
-	f = 0;
 	while (line != NULL)
 	{
 		if (check_repeat(type) == 0)
@@ -94,7 +84,7 @@ static int	test_syntax2(char *line, char **head, t_type type, int fd)
 		test_syntax_helper(&line, head, &type, fd);
 	}
 	free(*head);
-	if (vars()->last->f[2] == 0)
+	if (vars()->last->f == 0)
 	{
 		printf("no camera\n");
 		return (0);

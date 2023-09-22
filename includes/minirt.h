@@ -62,6 +62,7 @@ enum e_type{
 	CAMERA,
 	ERROR,
 	EMPTY_LINE,
+	COMMENT,
 };
 
 struct s_data{
@@ -81,7 +82,7 @@ struct s_scene{
     t_object *end_light;
 	t_scene  *next;
 	t_scene  *prev;
-	int	 f[3];
+	int	 f;
 	bool syntax;
 };
 
