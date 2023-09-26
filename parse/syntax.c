@@ -25,12 +25,11 @@ static int	check_repeat(t_type type)
 	return (1);
 }
 
-static void	test_syntax_helper(char **line, char **head, t_type *type, int fd)
+static void	test_syntax_helper(char **line, char **head, int fd)
 {
 	free(*head);
 	*line = get_next_line(fd);
 	*head = *line;
-	*type = ft_get_type(*line);
 }
 
 
@@ -79,7 +78,7 @@ int		test_syntax(char *str)
 			free(head);
 			return (0);
 		}
-		test_syntax_helper(&line, &head, &type, fd);
+		test_syntax_helper(&line, &head, fd);
 	}
 	close(fd);
 	free(head);
