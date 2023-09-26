@@ -41,73 +41,82 @@ static void	test_syntax_helper(char **line, char **head, t_type *type, int fd)
 	*type = ft_get_type(*line);
 }
 
-static int	test_syntax2(char *line, char **head, t_type type, int fd)
+
+static int test_objects(char *line, t_type type)
 {
-	while (line != NULL)
+	if (check_repeat(type) == 0)
+			return (0);
+	if (type == PLANE && !check_plane(&line))
 	{
-		if (check_repeat(type) == 0)
-		{
-			printf("repeat\n");
-			return (0);
-		}
-		if (type == PLANE && !check_plane(&line))
-		{
-			printf("plane\n");
-			return (0);
-		}
-			
-		else if (type == SPHERE && !check_sphere(&line))
-		{
-			printf("sphere\n");
-			return (0);
-		}
-		else if (type == AMBIENT && !check_ambient(&line))
-		{
-			printf("ambient\n");
-			return (0);
-		}
-		else if (type == CONE && !check_cone(&line))
-		{
-			printf("cone\n");
-			return (0);
-		}
-		else if (type == CAMERA && !check_camera(&line))
-		{
-			printf("camera\n");
-			return (0);
-		}
-		else if ((type == POINT || type == DIRECTIONAL) && !check_light(&line))
-		{
-			printf("light\n");
-			return (0);
-		}
-		test_syntax_helper(&line, head, &type, fd);
-	}
-	free(*head);
-	if (vars()->last->f == 0)
-	{
-		printf("no camera\n");
+		printf("plane\n");
 		return (0);
-	}		
+	}
+	else if (type == SPHERE && !check_sphere(&line))
+	{
+		printf("sphere\n");
+		return (0);
+	}
+	else if (type == AMBIENT && !check_ambient(&line))
+	{
+		printf("ambient\n");
+		return (0);
+	}
+	else if (type == CONE && !check_cone(&line))
+	{
+		printf("cone\n");
+		return (0);
+	}
+	else if (type == CYLINDER && !check_cylinder(&line))
+	{
+		printf("cylinder\n");
+		return (0);
+	}
+	else if (type == CAMERA && !check_camera(&line))
+	{
+		printf("camera\n");
+		return (0);
+	}
+	else if ((type == POINT || type == DIRECTIONAL) && !check_light(&line))
+	{
+		printf("light\n");
+		return (0);
+	}
+	else if (type == ERROR)
+	{
+		printf("error\n");
+		return (0);
+	}
 	return (1);
 }
 
 int		test_syntax(char *str)
 {
-	int	fd;
+	int fd;
 	char *line;
 	char *head;
 	t_type type;
-	int	 	test;
 
 	fd = open(str, O_RDONLY);
 	line = get_next_line(fd);
 	head = line;
 	type = ft_get_type(line);
-	test = test_syntax2(line, &head, type, fd);
-	if (test == 0)
-		free(head);
-	return (test);
+	while (line != NULL)
+	{
+		if (!test_objects(line, type))
+		{
+			while (line != NULL)
+				line = get_next_line(fd);
+			close(fd);
+			free(head);
+			return (0);
+		}
+		test_syntax_helper(&line, &head, &type, fd);
+	}
+	close(fd);
+	free(head);
+	if (vars()->last->f == 0)
+		return (0);
+	return (1);
 }
 
 int		check_sphere(char **line)

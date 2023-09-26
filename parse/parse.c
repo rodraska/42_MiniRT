@@ -94,16 +94,13 @@ int	check_map()
 	if (!strcmp_rt(vars()->map_file, "rt"))
 	{
 		write(1, "That file is not a .rt file\n", 29);
-		ft_close(vars());
+		return (-1);
 	}
 	else
 	{
 		fd = open(vars()->map_file, O_RDONLY);
 		if (fd == -1)
-		{
 			write(1, "That file is not in the repository.\n", 37);
-			ft_close (vars);
-		}
 		return (fd);
 	}
 	return (0);

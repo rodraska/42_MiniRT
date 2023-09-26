@@ -59,6 +59,7 @@ int ft_init_threads()
     while (++i < vars()->n_threads)
     {
         create_chunks(threads, i);
+        
         pthread_mutex_init(&vars()->threads[i].th_mut, NULL);
         if (pthread_create(&(vars()->threads[i].thread), NULL, \
         &routine, (void *)(&threads[i])) != 0)

@@ -34,13 +34,14 @@ static int create_scene(char *arg)
 	vars()->map_file = arg;
 	fd = check_map();
 	if (fd == -1)
-	{
-		printf("Error openning the file!");
-		return 0;
-	}
+		return (0);
 	vars()->last = head;
 	if (!test_syntax(arg))
+	{
+		free(head);
+		close(fd);
 		return (0);
+	}
 	while (map_loading(head, fd))
 		;
 	close(fd);
@@ -52,7 +53,7 @@ static int create_scene(char *arg)
 		head->prev = end_scene;
 	} 
 	end_scene = head;
-	return 1;
+	return (1);
 }
 
 static void init_creations()
@@ -76,14 +77,14 @@ int	main(int ac, char **av)
 		init_creations();
 		i = 0;
 		while (av[++i])
-		{			
+		{		
 			if (!create_scene(av[i]))
 				printf("Bad Map: %s\n", av[i]);
 		}
 		if (vars()->scene == NULL)
 			return (0);
 		init_window(vars());
-		vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN) - 4;
+		vars()->n_threads = sysconf(_SC_NPROCESSORS_ONLN) - 4;\
 		if(ft_init_threads() == -1)
 			return (-1);
 		mlx_loop_hook(vars()->mlx, paint, NULL);
