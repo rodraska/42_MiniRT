@@ -40,11 +40,12 @@ static int ft_mouse_scroll(int button, int x, int y, t_scene *scene)
 
 int	ft_close(t_vars *vars)
 {
+	int i;
+
 	if (vars->win)
 		mlx_destroy_window(vars->mlx, vars->win);
 	if (vars->img.img)
 		mlx_destroy_image(vars->mlx, vars->img.img);
-	//mlx_destroy_display(vars->mlx);
 	free(vars->mlx);
 	exit(0);
 }
