@@ -38,15 +38,67 @@ static int ft_mouse_scroll(int button, int x, int y, t_scene *scene)
 	return 0;
 }
 
+void	free_array(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+		free (arr[i++]);
+	free (arr);
+}
+
+void free_objects(t_scene *head)
+{
+	printf("begin\n");
+	t_scene	 *scene;
+	t_object *obj;
+	t_object *obj_tmp;
+
+	while (head)
+	{
+		scene = head;
+		head = head->next;
+		obj = scene->object;
+		while (obj)
+		{
+			obj_tmp = obj;
+			obj = obj->next;
+			free(obj_tmp);
+		}
+		obj = scene->light;
+		while (obj)
+		{
+			obj_tmp = obj;
+			obj = obj->next;
+			free(obj_tmp);
+		}
+		free(scene->camera);
+		free(scene);
+	}
+	printf("end\n");
+}
+
 int	ft_close(t_vars *vars)
 {
-	int i;
 
-	if (vars->win)
-		mlx_destroy_window(vars->mlx, vars->win);
+	ft_join_threads(vars);
 	if (vars->img.img)
 		mlx_destroy_image(vars->mlx, vars->img.img);
-	free(vars->mlx);
+	if (vars->win)
+	{
+		mlx_destroy_window(vars->mlx, vars->win);
+		vars->win = NULL;
+	}
+	if (vars->mlx)
+	{
+		mlx_destroy_display(vars->mlx);
+		free(vars->mlx);
+	}
+	if (vars->color)
+		free_array(vars->color);
+	free_objects(vars->scene);
+	printf("close\n");
 	exit(0);
 }
 

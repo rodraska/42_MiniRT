@@ -270,6 +270,7 @@ t_vector 	reflected_ray(t_vector R, t_vector N);
 
 //Threads
 int 	ft_init_threads();
+int	ft_join_threads(t_vars *vars);
 
 //Paint
 void 	paint();
