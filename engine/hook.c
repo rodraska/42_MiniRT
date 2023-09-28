@@ -50,7 +50,6 @@ void	free_array(char **arr)
 
 void free_objects(t_scene *head)
 {
-	printf("begin\n");
 	t_scene	 *scene;
 	t_object *obj;
 	t_object *obj_tmp;
@@ -76,7 +75,6 @@ void free_objects(t_scene *head)
 		free(scene->camera);
 		free(scene);
 	}
-	printf("end\n");
 }
 
 int	ft_close(t_vars *vars)
@@ -95,10 +93,7 @@ int	ft_close(t_vars *vars)
 		mlx_destroy_display(vars->mlx);
 		free(vars->mlx);
 	}
-	if (vars->color)
-		free_array(vars->color);
 	free_objects(vars->scene);
-	printf("close\n");
 	exit(0);
 }
 
@@ -120,9 +115,7 @@ int	ft_key(int keycode)
 {
 	if (keycode == XK_Escape)
 	{
-		mlx_destroy_window(vars()->mlx, vars()->win);
-		free(vars()->mlx);
-		exit(0);
+		ft_close(vars());
 	}
 	if (vars()->scene->select)
 	{
