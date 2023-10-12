@@ -39,7 +39,10 @@ void	free_objects(t_scene *head)
 	t_scene	*scene;
 
 	while (head)
+		head = head->prev;
+	while (head)
 	{
+		printf("head\n");
 		scene = head;
 		head = head->next;
 		erase_object(scene->object);

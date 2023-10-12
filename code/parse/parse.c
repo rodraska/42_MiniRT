@@ -42,7 +42,7 @@ t_type	ft_get_type(char *line)
 		if ((line)[0] == 'c' && (line)[1] == 'n')
 			return (CONE);
 		if (line[0] == '#')
-			return (COMMENT);_calloc
+			return (COMMENT);
 	}
 	return (ERROR);
 }
